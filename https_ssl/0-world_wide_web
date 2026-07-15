@@ -2,11 +2,8 @@
 # Displays DNS information about subdomains
 
 show_info() {
-    record=$(dig "$1.$2" | awk '/IN[[:space:]]+A/ {print $4, $5; exit}')
-    type=$(echo "$record" | awk '{print $1}')
-    ip=$(echo "$record" | awk '{print $2}')
-
-    echo "The subdomain $1 is a $type record and points to $ip"
+    ip=$(dig +short "$1.$2" | awk 'NR==1 {print $1}')
+    echo "The subdomain $1 is a A record and points to $ip"
 }
 
 if [ $# -eq 2 ]; then
